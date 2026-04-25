@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Cardgame : MonoBehaviour
 {
+    public int pairCount = 10;
+    public GameObject cardPrefab;
+    public Transform cardParent;
     public List<card> cards = new List<card>();
     public List<Sprite> sprites = new List<Sprite>();
     public card firstCard = null;
@@ -12,6 +15,7 @@ public class Cardgame : MonoBehaviour
 
     void Start()
     {
+        GenerateCards();
         StartGame();
     }
     void StartGame()
@@ -73,7 +77,8 @@ public class Cardgame : MonoBehaviour
 
         if (firstCard != null && secondCard != null)
         {
-            CheckCard();
+            isChecking = true;
+            Invoke("CheckCard", 0.5f);
         }
 
     }
@@ -112,5 +117,19 @@ public class Cardgame : MonoBehaviour
         }
 
         return newCardNumbers;
+    }
+    void GenerateCards()
+    {
+        int totalCard = pairCount * 2;
+
+        for (int i = 0; i < totalCard; i++)
+        {
+            GameObject obj = Instantiate(cardPrefab, cardParent);
+            card newCard = obj.GetComponent<card>();
+
+            newCard.cardGame = this;
+
+            cards.Add(newCard);
+        }
     }
 }

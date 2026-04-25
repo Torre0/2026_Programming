@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class card : MonoBehaviour
 {
+    Image img;
+    Sprite frontSprite;
     public float rotateY;
     public TextMeshProUGUI text;
     public bool isFront = true;
@@ -13,6 +15,12 @@ public class card : MonoBehaviour
     public Cardgame cardGame;
     public bool ismatched = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    void Start()
+    {
+        img = GetComponent<Image>();
+        frontSprite = img.sprite;
+    }
 
     // Update is called once per frame
     void Update()
@@ -27,6 +35,18 @@ public class card : MonoBehaviour
         else
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, flipRortation, rotateY * Time.deltaTime);
+        }
+        if (currenY > 90 && currenY < 270)
+        {
+            text.gameObject.SetActive(false);
+
+            img.sprite = null;
+        }
+        else
+        {
+            text.gameObject.SetActive(true);
+
+            img.sprite = frontSprite;
         }
     }
     public void ClickCard()
