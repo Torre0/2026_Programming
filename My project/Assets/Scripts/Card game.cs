@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Cardgame : MonoBehaviour
 {
-    public int pairCount = 10;
+    public int pairCount;
     public GameObject cardPrefab;
     public Transform cardParent;
     public List<card> cards = new List<card>();

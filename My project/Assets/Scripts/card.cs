@@ -51,9 +51,9 @@ public class card : MonoBehaviour
     }
     public void ClickCard()
     {
-        if (ismatched)
+        if (ismatched || isFront)
         {
-
+            return;
         }
         else
         {

@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b55eefe28aac8f4c874416dd753f3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::card
-  rotateY: 1
+  rotateY: 2
   text: {fileID: 0}
   isFront: 1
   number: 0
