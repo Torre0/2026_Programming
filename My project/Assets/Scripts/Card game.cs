@@ -20,6 +20,8 @@ public class Cardgame : MonoBehaviour
     }
     void StartGame()
     {
+        SoundManager.Instance.PlaySoundBGM();
+
         List<int> pairNumbers = GeneratePairNumbers(cards.Count);
 
         for (int i = 0; i < cards.Count; ++i)
@@ -68,6 +70,7 @@ public class Cardgame : MonoBehaviour
         {
             firstCard = card;
             firstCard.Flip(true);
+            SoundManager.Instance.PlaySoundFx();
         }
         else
         {
