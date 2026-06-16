@@ -17,6 +17,8 @@ namespace StarterAssets
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
+        private Vector3 _launchHorizontalVelocity = Vector3.zero;
+        private float _launchDecayRate = 5f;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
@@ -159,6 +161,7 @@ namespace StarterAssets
         {
             _hasAnimator = TryGetComponent(out _animator);
 
+            ApplyLaunchVelocity();
             JumpAndGravity();
             GroundedCheck();
             Move();
@@ -391,6 +394,45 @@ namespace StarterAssets
                 if (LandingAudio != null)
                     LandingAudio.Play();
 
+            }
+        }
+
+        public void LaunchFromPad(float verticalForce, Vector3 horizontalDir, float horizontalForce, float decayRate)
+        {
+            _verticalVelocity = verticalForce;
+            _launchHorizontalVelocity = horizontalDir * horizontalForce;
+            _launchDecayRate = decayRate;
+        }
+
+
+        // ────────────────────────────────────────────
+        // [3] private 함수 추가 (LaunchFromPad 바로 아래)
+        // ────────────────────────────────────────────
+        private void ApplyLaunchVelocity()
+        {
+            if (_launchHorizontalVelocity.magnitude > 0.1f)
+            {
+                _controller.Move(_launchHorizontalVelocity * Time.deltaTime);
+                _launchHorizontalVelocity = Vector3.Lerp(
+                    _launchHorizontalVelocity,
+                    Vector3.zero,
+                    _launchDecayRate * Time.deltaTime
+                );
+            }
+        }
+        public void Respawn(Vector3 spawnPos)
+        {
+            _verticalVelocity = 0f;
+            _launchHorizontalVelocity = Vector3.zero;
+
+            _controller.enabled = false;
+            transform.position = spawnPos;
+            _controller.enabled = true;
+
+            if (_hasAnimator)
+            {
+                _animator.SetBool(_animIDJump, false);
+                _animator.SetBool(_animIDFreeFall, false);
             }
         }
     }
